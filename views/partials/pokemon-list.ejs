@@ -1,0 +1,37 @@
+<div class="legend">
+  <div class="number"><span>#</span></div>
+  <div class="sprite"><span>sprite</span></div>
+  <div class="name"><span>name</span></div>
+  <div class="type"><span>type</span></div>
+</div>
+<div class="pokemons">
+  <% if (pokemons) { %> <% pokemons.forEach(pokemon=>{ %>
+  <div class="pokemon" id="<%= pokemon.id %>">
+    <div class="number">
+      <span><%= pokemon.id %></span>
+    </div>
+    <div class="sprite">
+      <img src="<%= pokemon.sprites.front_default %>" />
+    </div>
+    <div class="name">
+      <span><%= pokemon.name %></span>
+    </div>
+    <div class="type">
+      <% if(pokemon.types.length > 1) { %> <% pokemon.types.forEach(type => { %>
+      <span><%= type.type.name %></span>
+      <% }); %> <% } else { %>
+      <span><%= pokemon.types[0].type.name %></span>
+      <% } %>
+    </div>
+  </div>
+  <% }); %> <% } %>
+</div>
+<div class="pagination">
+  <span class="previous"><</span>
+  <select>
+    <% for(let i = 1; i <= pagination.nbTotalsPages; i++) { %>
+    <option value="<%= i %>"><%= i %></option>
+    <% } %>
+  </select>
+  <span class="next">></span>
+</div>

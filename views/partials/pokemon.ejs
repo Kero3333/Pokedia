@@ -1,0 +1,22 @@
+<div class="pokemon-card">
+  <h2 class="name"><%= pokemon.name %></h2>
+  <div class="img-stats">
+    <img src="<%= pokemon.sprite %>" />
+    <div class="stats">
+      <h3>Stats</h3>
+      <div>
+        <% pokemon.stats.forEach(stat => { %>
+        <div class="<%= stat.stat.name %>">
+          <span><%= stat.stat.name %> : </span>
+          <span><%= stat.base_stat %></span>
+        </div>
+        <%});%>
+      </div>
+    </div>
+  </div>
+  <div class="description">
+    <p><%= pokemon.description %></p>
+  </div>
+  <div class="evolution"></div>
+</div>
+<div class="back"><span>Back</span></div>
