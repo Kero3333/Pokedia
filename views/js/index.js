@@ -1,5 +1,5 @@
 const pokemonSelect = () => {
-  const pokemons = document.querySelectorAll(".pokemon");
+  // pagination
   const page = parseInt(document.location.search.split("?page=")[1]);
   document.querySelector("select").value = page;
   if (page > 1) {
@@ -16,7 +16,12 @@ const pokemonSelect = () => {
     const newPage = document.querySelector("select").value;
     document.location.search = `?page=${newPage}`;
   });
+
+  // liste de pokémon
+  const pokemons = document.querySelectorAll(".pokemon");
+
   pokemons.forEach((pokemon) => {
+    // fiche pokémon
     pokemon.addEventListener("click", async () => {
       const id = pokemon.id;
       const container = document.querySelector(".container");

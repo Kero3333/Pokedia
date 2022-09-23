@@ -6,11 +6,14 @@ app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.static(__dirname + "/views"));
 
+// constantes
 const urlPokemon = "https://pokeapi.co/api/v2/pokemon";
 const urlPokemonSpecie = "https://pokeapi.co/api/v2/pokemon-species";
 const nbTotalPokemon = 905;
 
+// liste de pokémon
 app.get("/", async (req, res) => {
+  // on détermine les pokémon à afficher
   let numberOfPokemon = 10;
   let offset = 1;
 
@@ -22,7 +25,9 @@ app.get("/", async (req, res) => {
       offset = (page - 1) * 10 + 1;
     }
 
+    // pour chaque pokémon on récupère ses informations "utiles"
     const pokemonsCaract = [];
+
     for (let i = offset; i <= numberOfPokemon && i <= 905; i++) {
       const {
         data: { id, name, sprites, types },
@@ -36,11 +41,14 @@ app.get("/", async (req, res) => {
       pokemonsCaract.push(caract);
     }
 
+    // on trie le tableau contenant les caractéristiques des pokémon en fonction de leurs id
     pokemonsCaract.sort(function compare(a, b) {
       if (a.id < b.id) return -1;
       if (a.id > b.id) return 1;
       return 0;
     });
+
+    // on envoie la page index avec la liste des pokémon
     res.render("index", {
       pokemons: pokemonsCaract,
       pagination: { nbTotalsPages },
@@ -51,12 +59,19 @@ app.get("/", async (req, res) => {
   }
 });
 
+// fiche du pokémon
 app.get("/pokemon/:id", async (req, res) => {
   const { id } = req.params;
+
+  // on récupère les informations du pokémon
   const {
     data: {
       name,
-      sprites: { front_default },
+      sprites: {
+        other: {
+          "official-artwork": { front_default },
+        },
+      },
       stats,
     },
   } = await axios.get(`${urlPokemon}/${id}`);
@@ -68,6 +83,8 @@ app.get("/pokemon/:id", async (req, res) => {
       return 1;
     }
   });
+
+  // on envoie la page avec les informations du pokémon
   const pokemon = {
     name,
     sprite: front_default,
